@@ -3,6 +3,8 @@ package com.psybergate.socialmedia.app;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.cassandra.config.EnableCassandraAuditing;
+import org.springframework.data.cassandra.config.EnableReactiveCassandraAuditing;
 import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 
@@ -10,6 +12,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @SpringBootApplication(scanBasePackages = {"com.psybergate.socialmedia"})
 @EntityScan("com.psybergate.socialmedia")
 @EnableAsync
+@EnableCassandraAuditing
+@EnableReactiveCassandraAuditing
 public class SocialMediaApplication {
 
   public static void main(String[] args) {

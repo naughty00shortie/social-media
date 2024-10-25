@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
-import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
@@ -25,14 +26,14 @@ public class Tweet {
   @CassandraType(type = CassandraType.Name.UUID)
   private UUID id = UUID.randomUUID();
 
-  @Column
   private String message;
 
-  @Column
   private String userId;
 
-  @CreatedDate
-  private LocalDateTime createdDate;
+  private LocalDateTime createdDate = LocalDateTime.now();
+
+  @CreatedBy
+  private String createdBy;
 
   @LastModifiedDate
   private LocalDateTime lastModifiedDate;

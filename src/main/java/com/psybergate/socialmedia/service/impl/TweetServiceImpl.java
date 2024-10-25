@@ -47,5 +47,4 @@ public class TweetServiceImpl implements TweetService {
   public CompletableFuture<Tweet> createTweetAsync(Tweet tweet) {
     return CompletableFuture.completedFuture(tweetRepository.save(tweet));
   }
-
 }
