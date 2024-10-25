@@ -20,9 +20,4 @@ public class UserController {
   public User createUser(@RequestBody User user) {
     return userService.createUser(user);
   }
-
-  @DeleteMapping("/{userId}")
-  public void deleteUser(@PathVariable Long userId) {
-    userService.deleteUser(userId);
-  }
 }

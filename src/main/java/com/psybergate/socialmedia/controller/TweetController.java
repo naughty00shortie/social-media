@@ -8,6 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.CompletableFuture;
+
 @RestController
 public class TweetController {
 
@@ -25,7 +27,7 @@ public class TweetController {
   }
 
   @PostMapping("/tweets")
-  public Tweet createTweet(@RequestBody Tweet tweet) {
-    return tweetService.createTweet(tweet);
+  public CompletableFuture<Tweet> createTweetAsync(@RequestBody Tweet tweet) {
+    return tweetService.createTweetAsync(tweet);
   }
 }

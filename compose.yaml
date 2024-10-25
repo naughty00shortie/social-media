@@ -1,9 +1,13 @@
+version: '3.8'
+
 services:
-  postgres:
-    image: 'postgres:latest'
-    environment:
-      - 'POSTGRES_DB=social_media'
-      - 'POSTGRES_PASSWORD=admin'
-      - 'POSTGRES_USER=postgres'
+  cassandra:
+    image: cassandra:4.0.7
+    container_name: cassandra
     ports:
-      - '5431:5432'
+      - "9042:9042"
+    environment:
+      CASSANDRA_PASSWORD_SEEDER: 'true'
+      CASSANDRA_RPC_ADDRESS: '0.0.0.0'
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d

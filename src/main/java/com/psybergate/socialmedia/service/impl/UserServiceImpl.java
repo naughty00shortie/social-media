@@ -6,6 +6,8 @@ import com.psybergate.socialmedia.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -22,7 +24,12 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void deleteUser(Long userId) {
+  public User updateUser(User user) {
+    return userRepository.save(user);
+  }
+
+  @Override
+  public void deleteUser(UUID userId) {
     userRepository.deleteById(userId);
   }
 }

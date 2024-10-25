@@ -2,9 +2,13 @@ package com.psybergate.socialmedia.service;
 
 import com.psybergate.socialmedia.domain.User;
 
+import java.util.UUID;
+
 public interface UserService {
 
   User createUser(User user);
 
-  void deleteUser(Long userId);
+  User updateUser(User user);
+
+  void deleteUser(UUID userId);
 }

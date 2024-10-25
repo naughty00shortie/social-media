@@ -1,30 +1,36 @@
 package com.psybergate.socialmedia.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.cassandra.core.mapping.CassandraType;
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
-@Entity
-@Table(name = "\"user\"")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class User extends AbstractAudit {
+@NoArgsConstructor
+@Table
+public class User {
 
-  String name;
+  @PrimaryKey
+  @CassandraType(type = CassandraType.Name.UUID)
+  private UUID id = UUID.randomUUID();
+  private String name;
+  private String email;
+  private boolean deleted;
 
-  String email;
+  @CreatedDate
+  private LocalDateTime createdDate;
 
-  String password;
-
-  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-  List<Tweet> tweets;
+  @LastModifiedDate
+  private LocalDateTime lastModifiedDate;
 }

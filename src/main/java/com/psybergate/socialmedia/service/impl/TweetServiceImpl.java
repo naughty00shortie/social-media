@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -26,13 +28,18 @@ public class TweetServiceImpl implements TweetService {
   }
 
   @Override
-  public void deleteTweet(Long tweetId) {
+  public Tweet updateTweet(Tweet tweet) {
+    return tweetRepository.save(tweet);
+  }
+
+  @Override
+  public void deleteTweet(UUID tweetId) {
     tweetRepository.deleteById(tweetId);
   }
 
   @Override
   public Page<Tweet> getTweets(Pageable pageable) {
-    return tweetRepository.findAll(pageable);
+    return (Page<Tweet>) tweetRepository.findAll(pageable);
   }
 
   @Async
@@ -41,8 +48,4 @@ public class TweetServiceImpl implements TweetService {
     return CompletableFuture.completedFuture(tweetRepository.save(tweet));
   }
 
-  @Override
-  public Page<Tweet> getTweets(java.awt.print.Pageable pageable) {
-    return null;
-  }
 }
