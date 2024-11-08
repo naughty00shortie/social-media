@@ -1,51 +1,20 @@
-version: '2.3'
+version: '3.8'
+
 services:
   cassandra:
-    image: cassandra:4.0.7
-    environment:
-      WAIT_TIMEOUT: "60"
-      JVM_OPTS: "-Dcassandra.consistent.rangemovement=false"
-      CASSANDRA_CLUSTER_NAME: "DemoCluster"
-      CASSANDRA_ENDPOINT_SNITCH: "GossipingPropertyFileSnitch"
-      CASSANDRA_DC: "DATA"
-      CASSANDRA_PASSWORD_SEEDER: 'true'
-      CASSANDRA_RPC_ADDRESS: '0.0.0.0'
-    healthcheck:
-      test: ["CMD-SHELL", "/scripts/waitforcassandra.sh"]
-      interval: 10s
-      timeout: 10s
-      retries: 3
-    restart: always
-    expose:
-      - 9042
+    image: cassandra:latest
     ports:
       - "9042:9042"
     volumes:
-      - ./scripts:/scripts
-  cassandra-init:
-    image: cassandra:3
-    hostname: init
-    volumes:
-      - ./scripts:/scripts
-    command: /scripts/cassandra-init-seed-data.sh && /bin/bash
-    links:
-      - cassandra:db
-    depends_on:
-      cassandra:
-        condition: service_healthy
-    restart: "no"
-  cassandra-client:
-    # just run docker-compose run cassandra-client - that just connects.
-    image: cassandra:3
-    hostname: client
-    volumes:
-      - ./scripts:/scripts
-    command: /bin/bash
-    links:
-      - cassandra:db
-    depends_on:
-      cassandra:
-        condition: service_healthy
-    restart: on-failure
-    stdin_open: true
-    tty: true
+      - cassandra_data:/var/lib/cassandra
+      - ./init.cql:/docker-entrypoint-initdb.d/init.cql
+      - ./waitforcassandra.sh:/waitforcassandra.sh
+    command: >
+      bash -c "
+      /usr/local/bin/docker-entrypoint.sh cassandra -f &
+      /waitforcassandra.sh;
+      fg %1
+      "
+
+volumes:
+  cassandra_data:
